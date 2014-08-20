@@ -1,0 +1,57 @@
+#+TIELE: My Engineering Note
+#+AUTHOR: Sanglae Kim
+#+EMAIL: nova0302@hotmail.com
+#+OPTIONS: ^:nil
+
+* Emacs
+
+** emacs 24.3 on CentOS 6.5
+   - I've been using emacs 24.3 on CentOS 6.5, but I got an error saying "g_settings~~~" after "yum update"
+   - This is how i get over the problem.
+   - [[http://keik-117.hatenablog.com/entry/2014/07/06/143117][a japanese linke releated to the problem]]
+#+begin_src sh
+ $ tar zxvf emacs-24.3.tar.gz
+ $ cd  emacs-24.3
+ $ yum -y install gtk2-devel libXpm-devel libjpeg-turbo-devel libpng-devel giflib-devel libtiff-devel ncurses-devel
+ $ ./configure
+ $ make
+#+end_src
+
+you may get "undefined reference to g_settings~~~", then you do as following.
+#+begin_src sh
+
+ $ make distclean
+ $ ./configure --without-gsettings
+ $ make
+ $ make install
+#+end_src
+
+
+* Linux(CentOS)
+
+** Install git 1.8.5.2 from source on CentOS 6.5
+   1. [[https://gist.github.com/matthewriley/8319432][A link I reffered]]
+
+   2. I just copied the instruction from the link for convinience.
+#+begin_src sh
+$ yum -y install zlib-devel openssl-devel cpio expat-devel gettext-devel curl-devel perl-ExtUtils-CBuilder perl-ExtUtils-MakeMaker
+$ wget -O v1.8.5.2.tar.gz https://github.com/git/git/archive/v1.8.5.2.tar.gz
+$ tar -xzvf ./v1.8.5.2.tar.gz
+$ cd git-1.8.5.2/
+$ make prefix=/usr/local all
+$ make prefix=/usr/local install
+$ exit
+#+end_src
+
+   3.open a terminal and do as following
+#+begin_src sh
+$ which git
+/usr/local/bin/git
+
+$ git --version
+git version 1.8.5.2
+#+end_src
+
+
+
+* HDL
