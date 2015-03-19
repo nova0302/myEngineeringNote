@@ -1,0 +1,48 @@
+* Tasks
+** DONE Start new org file for tutorial
+   CLOSED: [2015-03-15 Sun 09:17]
+** DONE Outline document
+   CLOSED: [2015-03-15 Sun 09:16]
+** TODO Write introduction
+
+* Introduction
+
+Org-mode is a personal information management and outlining tool for Emacs. This
+document is intended to give the reader a "feel" for org-mode and
+to teach basic operations.
+
+** Obtaining org-mode
+
+You can download org-mode from the [[http://daum.net][daum]]
+[[file:~/.emacs::'(org-log-done%20(quote%20time))][Emacs Init File]]
+
+** Installation
+** Configuration
+* The basics
+** Creating a new file
+** Simple task list
+** Using headlines to structure a document
+** Links to other places
+** Adding notes to a task
+** Scheduling an appointment
+** Using the agenda
+* Key bindings
+  1. C-c C-t org-todo
+  2. C-c C-o org-open-at-point
+  3. M-Enter org-meta-return
+  4. M->, M-<
+  5. C-c l org-store-link(open a file to link and press the key binding)
+  6. C-c C-l org-insert-link(you may press up/down arrows to get the link made with 5)
+  7. S-TAB org-shifttab
+  8. org-agenda-files
+  9. C-c C-s org-schecule
+  10. C-c C-e h h -> export the file to HTML
+  11. open the HTML file, and C-c C-v will open the file in a Browser.
+  12. S-right arrow -> change heading among 3 states{TODO, DONE, normal}
+  13. Put the cursor on the date, then press {S-uparrow, S-downarrow} to increase
+      any (year, month, day, hour)
+  14. C-c C-c -> check box progress
+* Eat [66%]
+  1. [X] Milk
+  2. [X] Bread
+  3. [ ] Tee

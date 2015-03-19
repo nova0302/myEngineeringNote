@@ -1,0 +1,120 @@
+* Learn you Haskell
+** 1.
+
+** 2. Starting out!
+*** 2.1 Function Application
+    - Function name should begin with a lower case letter.(myFunc1, squareRoot...)
+    - Function application has the _highest_ predence of them all.
+
+*** 2.2 If statement
+    - In Haskell's if statement and if statements *else* statement is mandatory
+      because in Haskell every expression and function _must_ return something.
+    - If statement is an _expression_.
+
+*** 2.3 An expression
+    - An expression is a piece of code that _returns_ a value.
+
+*** 2.4 "'"
+    - "'" denote a strict version of a function(one that isn't lazy) or a
+      slightly modified version of a function, or a variable.
+
+*** 2.5 List
+    - _homogenous_ data structure.
+    - square brackets, comma separated.
+    - strings are just lists of characters.
+    - ++ operator -> putting two lists together.
+    - : operator
+      - Putting things at the *end* of list is _slow_.
+      - Putting things at the *beggining* of a list is _instantaneous_.
+    - [list] !! index
+    - head, tail, last, init
+      - careful not to use them on _empty_ lists.
+      - This error cannot be caught at compile time so it's always good practice to take
+      - precautions against accidentally telling Haskell to give you some elements from an
+      - empty list.
+    - length, null, reverse, take, drop, maximum, minimum, sum, product, elem
+    - [1..20] range operator
+    - cycle, repeat, replicate
+
+*** 2.6 List comprehension
+    - zip
+#+begin_haskell
+rightTrangles = [(a,b,c) | a <- [1..20], b <- [1..20], c <- [1..20], a^2 + b^2 == c^2]
+#+end_haskell
+*** 2.7 tuples
+    - fst, snd
+
+
+** 3. Types and Typeclasses
+   - Haskell has a static type sysstem,
+     which means that the type of every expression is known at compile time,
+     which leads to safer code.
+   - type inference
+   - functions also have types.
+   - :: "has type of"
+   - Explicit types are always denoted with the first letter in *capital* case.
+#+begin_haskell
+removeNonUppercase :: [Char] -> [Char]
+removeNonUppercase st = [ c | c <- st, c `elem` ['A'..'Z']]
+#+end_haskell
+   - Int, Integer, Float, Double, Bool, Char.
+   - The empty tuple () is also a type which can only have a signle value: ().
+   - => called a *class constraint*.
+#+begin_haskell
+ghci> :t (==)
+(==) :: (Eq a) => a -> a-> Bool
+#+end_haskell
+   - The equality function takes any two values that are of the same type and returnsa Bool.
+   - The type of those two values must be _a member of the *Eq* class_ (this was the class constraint).
+
+*** 3.1 Eq typeclass
+    - _The *Eq* typeclass_ provides _an interface_ for testing for equality.
+    - Eq is used for types that support equality testing.
+    - The functions its members implement are == and /=.
+*** 3.2 Ord typeclass
+    - is for types that have an ordering.
+    - covers all the standard comparing functions such as >, >= and <=.
+    - To be a member of Ord, a type must first have membership in the prestigious and exclusive Eq club.
+*** 3.3 Show
+    - Members of *Show* can be presented as strings.
+    - The most used function that deals with the *Show* typeclass is show.
+    - It takes a value whose type is a member of Show and presents it to use as a string.
+***
+
+
+** 4. Syntax in Functions
+*** 4.1 Pattern matching
+***
+***
+***
+***
+***
+** 7. Modules
+** 8. Making Our Own Types and Typeclass
+#+BEGIN_SRC haskell
+data Bool = False | Ture
+data Point = Point Float Float  deriving (Show)
+data Shape = Circle Point Float | Rectangle Point Point deriving (Show)
+#+END_SRC
+   - read like "Bool Type can have a value of True or False"
+   - Both the *type* and the *value* constructors have to be capital cased.
+   - Value constructors are functions, so we can map them and partially apply them
+     and everything. If we want a list of concentric circles with different radii, we can do this.
+   - Not exporting the value constructors of a data types makes them more abstract in such a way
+     that we hide their implementation.
+   -
+*** 8.2 Record syntax
+#+BEGIN_SRC haskell
+data Car = Car {company :: String, model :: String, year :: Int} deriving (Show)
+#+END_SRC
+
+*** 8.3 Type parameters
+    - A _value constructors_ can take some values parameters and then produce a new value.
+    - In a similar manner, _type contructtors_ can tacke types as parameters to produce new
+      types.
+#+begin_haskell
+data Maybe a = Nothing | Just a
+#+end_haskell
+    - We usually use type parameters when the type that's contained inside the data type's
+      various value constructors isn't really that important for the type to work.
+***
