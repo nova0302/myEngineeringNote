@@ -3,11 +3,11 @@
 #+EMAIL: nova0302@hotmail.com
 #+OPTIONS: ^:nil
 
-* Emacs
+** Emacs
 
-** emacs 24.3 on CentOS 6.5
+** 1. Installation of Emacs 24.3 on CentOS 6.5
    - I've been using emacs 24.3 on CentOS 6.5, but I got an error saying "g_settings~~~" after "yum update"
-   - This is how i get over the problem.
+   - This is how i got over the problem.
    - [[http://keik-117.hatenablog.com/entry/2014/07/06/143117][a japanese linke releated to the problem]]
 #+begin_src sh
  $ tar zxvf emacs-24.3.tar.gz
@@ -25,6 +25,45 @@ you may get "undefined reference to g_settings~~~", then you do as following.
  $ make
  $ make install
 #+end_src
+
+** 2. magit
+   -[[http://ergoemacs.org/emacs/emacs_magit-mode_tutorial.html][ergoemacs]]
+
+*** 2.1 usage
+    - Move cussor to a line, press TAB to toggle diff(magit-toggle-section)
+    - open a dired buffer
+    - M-x magit-status
+    - 's' ~ stage 'S' ~ stage all(magit-stage-item, magit-stage-all)
+    - 'u' ~ unstage 'U' ~ unstage all
+    - c c to write a commit message, then C-c C-c to commit.(magit-key-mode-popup-committing)
+    - P P to push(magit-key-mode-popup-pushing)
+    - F F to pull(magit-key-mode-popup-pulling)
+** 3. Navigating over balanced expressions
+   - C-M-n/p ~ forward-list, backward-list
+   - C-M-f/b ~ forward-sexp, backward-sexp
+   - C-M-k ~ kill-sexp
+   - C-M-SPC mark-sexp
+
+**
+
+** 4. CTags
+#+BEGIN_SRC shell
+ctags -e -R --extra=+fq --exclude=db --exclude=test --exclude=.git -f TAGS
+#+END_SRC
+#+BEGIN_SRC lisp
+(defun build-ctags (dir-name)
+  "Create tags file."
+  (interactive "DDirectory: ")
+  (shell-command
+   (format "ctags -f %s/TAGS -e -R %s" dir-name (directory-file-name dir-name)))
+  (message "tags built successfully"))
+#+END_SRC
+   - [[http://tulrich.com/geekstuff/emacs.html][Ctags]]
+   - M-.       goes to the symbol definition
+   - M-0 M-.   goes to the next matching definition
+   - M-*       return to your starting point
+   - M-x tags-search <type your regexp>       initiate a search
+   - M-, go to the next match
 
 
 * Linux(CentOS)
