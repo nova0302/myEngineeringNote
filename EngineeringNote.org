@@ -3,7 +3,7 @@
 #+EMAIL: nova0302@hotmail.com
 #+OPTIONS: ^:nil
 
-** Emacs
+* Emacs
 
 ** 1. Installation of Emacs 24.3 on CentOS 6.5
    - I've been using emacs 24.3 on CentOS 6.5, but I got an error saying "g_settings~~~" after "yum update"
@@ -25,7 +25,6 @@ you may get "undefined reference to g_settings~~~", then you do as following.
  $ make
  $ make install
 #+end_src
-
 ** 2. magit
    -[[http://ergoemacs.org/emacs/emacs_magit-mode_tutorial.html][ergoemacs]]
 
@@ -38,6 +37,7 @@ you may get "undefined reference to g_settings~~~", then you do as following.
     - c c to write a commit message, then C-c C-c to commit.(magit-key-mode-popup-committing)
     - P P to push(magit-key-mode-popup-pushing)
     - F F to pull(magit-key-mode-popup-pulling)
+
 ** 3. Navigating over balanced expressions
    - C-M-n/p ~ forward-list, backward-list
    - C-M-f/b ~ forward-sexp, backward-sexp
@@ -64,6 +64,10 @@ ctags -e -R --extra=+fq --exclude=db --exclude=test --exclude=.git -f TAGS
    - M-*       return to your starting point
    - M-x tags-search <type your regexp>       initiate a search
    - M-, go to the next match
+
+** 5. Basic usage
+   - _*_ ~ search the word under the cursor.
+
 
 
 * Linux(CentOS)
@@ -94,3 +98,47 @@ git version 1.8.5.2
 
 
 * HDL
+
+* Advanced Debug Interface with Altera Virtual JTAG
+  1. enable bebugger
+     virtual IR shift, IR length = *4* <=
+     (0,1, 8,*4*)
+        |  |  |-> 4 bit shift
+        |  |----> 0x8, the value to be shifted in.
+        |-------> 1: IR, 2: DR
+  2. Select the submodule.
+     virtual DR shift
+     (0,2,4,3)
+          |   | --> 3 bit shift
+          |-------> 0x4("100") top module & submodule 0
+
+  3. Burst Write
+     3.1. Burst Setup(*Write*)
+	virtual DR shift
+	(0,2,"0 0x1 0x00 0x4", 53)
+              |   |   |   |    |--> 53bit shift
+              |   |   |   |-------> word count
+              |   |   |-----------> start address
+              |   |-----------------> burst setup write 8-bits words
+              |---------------------> top level module select 0: submodule, 1: top module
+
+     3.2. Burst Write
+	virtual DR shift
+	(0,2,"CRC 0x03..0x00",64)
+		|      |       |--> 64bit shift
+		|      |-------> data to be written
+		|-----------------> crc for the data
+  4. Burst Read
+     4.1. Burst Setup(*Read*)
+	virtual DR shift
+	(0,2,"0 0x5 0x00 0x4", 53)
+	      |   |   |   |    |--> 53bit shift
+	      |   |   |   |-------> word count
+	      |   |   |-----------> start address
+	      |   |-----------------> burst setup read 8-bits words
+	      |---------------------> top level module select 0: submodule, 1: top module
+     4.2. Burst Read
+	virtual DR shift
+	(0,2,"0*(32+32+1), 65)
+		     |     |--> 64bit shift
+		     |--------> status(1)+crc(32)+data(32)
