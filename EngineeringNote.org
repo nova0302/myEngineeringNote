@@ -39,6 +39,7 @@ you may get "undefined reference to g_settings~~~", then you do as following.
     - F F to pull(magit-key-mode-popup-pulling)
     - setup git
       https://help.github.com/articles/set-up-git/
+    - git rm filename <- remove a file from the index
 
 ** 3. Navigating over balanced expressions
    - C-M-n/p ~ forward-list, backward-list
@@ -49,9 +50,9 @@ you may get "undefined reference to g_settings~~~", then you do as following.
 **
 
 ** 4. CTags
-#+BEGIN_SRC shell
+   #+BEGIN_SRC shell
 ctags -e -R --extra=+fq --exclude=db --exclude=test --exclude=.git -f TAGS
-#+END_SRC
+   #+END_SRC
 #+BEGIN_SRC lisp
 (defun build-ctags (dir-name)
   "Create tags file."
