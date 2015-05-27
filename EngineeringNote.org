@@ -37,6 +37,8 @@ you may get "undefined reference to g_settings~~~", then you do as following.
     - c c to write a commit message, then C-c C-c to commit.(magit-key-mode-popup-committing)
     - P P to push(magit-key-mode-popup-pushing)
     - F F to pull(magit-key-mode-popup-pulling)
+    - setup git
+      https://help.github.com/articles/set-up-git/
 
 ** 3. Navigating over balanced expressions
    - C-M-n/p ~ forward-list, backward-list
