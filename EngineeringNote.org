@@ -70,7 +70,21 @@ ctags -e -R --extra=+fq --exclude=db --exclude=test --exclude=.git -f TAGS
 
 
 
-* Linux(CentOS)
+* Working on Linux(CentOS)
+** icarus verilog installation
+   1. Install gtk+
+   2. Install "autoconf" & "gperf"
+      > yum -y groupinstall "Development tools"
+      > yum -y install gpref
+   3. Download iverilog from git
+      > git clone git://github.com/steveicarus/iverilog.git
+      > cd iverilog
+      > sh autoconf.sh
+      > ./configure --prefix=/opt/eda_tools/iverilog_root
+      > make && make install
+   4. Add the installation path to .bash_profile
+
+
 
 ** Install git 1.8.5.2 from source on CentOS 6.5
    1. [[https://gist.github.com/matthewriley/8319432][A link I reffered]]
