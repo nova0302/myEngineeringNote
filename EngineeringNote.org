@@ -126,6 +126,8 @@ git version 1.8.5.2
 * HDL
 
 * Advanced Debug Interface with Altera Virtual JTAG
+
+#+begin_src
   1. enable bebugger
      virtual IR shift, IR length = *4* <=
      (0,1, 8,*4*)
@@ -168,3 +170,4 @@ git version 1.8.5.2
 	(0,2,"0*(32+32+1), 65)
 		     |     |--> 64bit shift
 		     |--------> status(1)+crc(32)+data(32)
+#end_src
