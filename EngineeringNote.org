@@ -75,11 +75,13 @@ ctags -e -R --extra=+fq --exclude=db --exclude=test --exclude=.git -f TAGS
 
 * Working on Linux(CentOS)
 ** icarus verilog installation
-***   1. Install gtkwave & its prerequisits(tk-devel, xz-devel)
+***   1. Install gtkwave & its prerequisits(tk-devel, xz-devel, gperf, gtk2)
 #+begin_src shell
       > download http://gtkwave.sourceforge.net/gtkwave-3.3.65.tar.gz
       > yum -y install tk-devel
       > yum -y install xz-devel
+      > yum -y install gperf
+      > yum -y install gtk2
 #+end_src
 
 ***   2. Install "autoconf" & "gperf"
@@ -127,6 +129,23 @@ git version 1.8.5.2
 
 
 * HDL
+** Altera tools
+*** Quartus 13.1 on Centos 7
+    1. Error (213019): Can't scan JTAG chain. Error code 89.
+#+begin_src shell
+> sudo killall jtagd
+> which jtagd
+/opt/tools/altera/13.1/quartus/bin/jtagd
+> sudo `which jtagd`
+#+end_src
+
+    2. Quartus 13.1 Installation
+       - tb2_install: error while loading shared libraries: libpng12.so.0: cannot open shared object file: No such file or directory
+#+begin_src shell
+   >  sudo yum -y install tk-devel, xz-devel, libpng12.i686 libSM.i686
+#+end_src
+
+
 
 * Advanced Debug Interface with Altera Virtual JTAG
 
