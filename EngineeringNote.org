@@ -3,7 +3,7 @@
 #+EMAIL: nova0302@hotmail.com
 #+OPTIONS: ^:nil
 
-* Emacs
+* 1. Emacs
 
 ** 1. Installation of Emacs 24.3 on CentOS 6.5
    - I've been using emacs 24.3 on CentOS 6.5, but I got an error saying "g_settings~~~" after "yum update"
@@ -73,15 +73,12 @@ ctags -e -R --extra=+fq --exclude=db --exclude=test --exclude=.git -f TAGS
 
 
 
-* Working on Linux(CentOS)
+* 2. Working on Linux(CentOS)
 ** icarus verilog installation
 ***   1. Install gtkwave & its prerequisits(tk-devel, xz-devel, gperf, gtk2)
 #+begin_src shell
       > download http://gtkwave.sourceforge.net/gtkwave-3.3.65.tar.gz
-      > yum -y install tk-devel
-      > yum -y install xz-devel
-      > yum -y install gperf
-      > yum -y install gtk2
+      > yum -y install tk-devel, xz-devel, gperf, gtk2,
 #+end_src
 
 ***   2. Install "autoconf" & "gperf"
@@ -128,9 +125,9 @@ git version 1.8.5.2
 
 
 
-* HDL
-** Altera tools
-*** Quartus 13.1 on Centos 7
+* 3. HDL
+** 3.1 Altera tools
+*** 3.1.1 Quartus 13.1 on Centos 7
     1. Error (213019): Can't scan JTAG chain. Error code 89.
 #+begin_src shell
 > sudo killall jtagd
@@ -147,7 +144,7 @@ git version 1.8.5.2
 
 
 
-* Advanced Debug Interface with Altera Virtual JTAG
+* 4. Advanced Debug Interface with Altera Virtual JTAG
 
 #+begin_src
   1. enable bebugger
