@@ -5,7 +5,7 @@
 
 * 1. Emacs
 
-** 1. Installation of Emacs 24.3 on CentOS 6.5
+** 1.1 Installation of Emacs 24.3 on CentOS 6.5
    - I've been using emacs 24.3 on CentOS 6.5, but I got an error saying "g_settings~~~" after "yum update"
    - This is how i got over the problem.
    - [[http://keik-117.hatenablog.com/entry/2014/07/06/143117][a japanese linke releated to the problem]]
@@ -25,7 +25,7 @@ you may get "undefined reference to g_settings~~~", then you do as following.
  $ make
  $ make install
 #+end_src
-** 2. magit
+** 1.2 magit
    -[[http://ergoemacs.org/emacs/emacs_magit-mode_tutorial.html][ergoemacs]]
 
 *** 2.1 usage
@@ -41,7 +41,7 @@ you may get "undefined reference to g_settings~~~", then you do as following.
       https://help.github.com/articles/set-up-git/
     - git rm filename <- remove a file from the index
 
-** 3. Navigating over balanced expressions
+** 1.3 Navigating over balanced expressions
    - C-M-n/p ~ forward-list, backward-list
    - C-M-f/b ~ forward-sexp, backward-sexp
    - C-M-k ~ kill-sexp
@@ -49,7 +49,7 @@ you may get "undefined reference to g_settings~~~", then you do as following.
 
 **
 
-** 4. CTags
+** 1.4 CTags
    #+BEGIN_SRC shell
 ctags -e -R --extra=+fq --exclude=db --exclude=test --exclude=.git -f TAGS
    #+END_SRC
@@ -68,8 +68,13 @@ ctags -e -R --extra=+fq --exclude=db --exclude=test --exclude=.git -f TAGS
    - M-x tags-search <type your regexp>       initiate a search
    - M-, go to the next match
 
-** 5. Basic usage
+** 1.5 Basic usage
    - _*_ ~ search the word under the cursor.
+** 1.6 dired
+#+begin_src lisp
+(setq dired-listing-switches "-lXGh --group-directories-first")
+#+end_src
+
 
 
 
@@ -128,21 +133,23 @@ git version 1.8.5.2
 * 3. HDL
 ** 3.1 Altera tools
 *** 3.1.1 Quartus 13.1 on Centos 7
-    1. Error (213019): Can't scan JTAG chain. Error code 89.
+    1. get the file, extract  and run the script.
+#+begin_src shell
+> sh setup.sh
+#+end_src
+
+    2. tb2_install: error while loading shared libraries: libpng12.so.0: cannot open shared object file: No such file or directory
+#+begin_src shell
+   >  sudo yum -y install tk-devel, xz-devel, libpng12.i686 libSM.i686
+#+end_src
+
+    3. Error (213019): Can't scan JTAG chain. Error code 89.
 #+begin_src shell
 > sudo killall jtagd
 > which jtagd
 /opt/tools/altera/13.1/quartus/bin/jtagd
 > sudo `which jtagd`
 #+end_src
-
-    2. Quartus 13.1 Installation
-       - tb2_install: error while loading shared libraries: libpng12.so.0: cannot open shared object file: No such file or directory
-#+begin_src shell
-   >  sudo yum -y install tk-devel, xz-devel, libpng12.i686 libSM.i686
-#+end_src
-
-
 
 * 4. Advanced Debug Interface with Altera Virtual JTAG
 
