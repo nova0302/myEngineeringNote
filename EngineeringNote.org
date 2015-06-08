@@ -128,8 +128,6 @@ $ git --version
 git version 1.8.5.2
 #+end_src
 
-
-
 * 3. HDL
 ** 3.1 Altera tools
 *** 3.1.1 Quartus 13.1 on Centos 7
@@ -196,4 +194,19 @@ git version 1.8.5.2
 	(0,2,"0*(32+32+1), 65)
 		     |     |--> 64bit shift
 		     |--------> status(1)+crc(32)+data(32)
-#end_src
+#+end_src
+
+
+* 5. clsql
+#+begin_src lisp
+(ql:quickload 'clsql)
+
+;tell clsql where to search for mysql libs
+(push #P"/usr/lib/mysql" CLSQL-SYS:*FOREIGN-LIBRARY-SEARCH-PATHS*)
+
+;add mysql libs to clsql library path [apparent from code :]
+(clsql:push-library-path "/usr/lib/mysql/")
+
+;directly tell uffi to load mysqlclient shared library
+(uffi:load-foreign-library "/usr/lib/mysql/libmysqlclient.so")
+#+end_src
