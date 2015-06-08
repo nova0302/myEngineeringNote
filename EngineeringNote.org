@@ -202,11 +202,11 @@ git version 1.8.5.2
 (ql:quickload 'clsql)
 
 ;tell clsql where to search for mysql libs
-(push #P"/usr/lib/mysql" CLSQL-SYS:*FOREIGN-LIBRARY-SEARCH-PATHS*)
+(push #P"/usr/lib64/mysql" CLSQL-SYS:*FOREIGN-LIBRARY-SEARCH-PATHS*)
 
 ;add mysql libs to clsql library path [apparent from code :]
-(clsql:push-library-path "/usr/lib/mysql/")
+(clsql:push-library-path "/usr/lib64/mysql/")
 
 ;directly tell uffi to load mysqlclient shared library
-(uffi:load-foreign-library "/usr/lib/mysql/libmysqlclient.so")
+(uffi:load-foreign-library "/usr/lib64/mysql/libmysqlclient.so")
 #+end_src
