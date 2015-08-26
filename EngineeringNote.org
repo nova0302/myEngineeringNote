@@ -74,12 +74,26 @@ ctags -e -R --extra=+fq --exclude=db --exclude=test --exclude=.git -f TAGS
 #+begin_src lisp
 (setq dired-listing-switches "-lXGh --group-directories-first")
 #+end_src
+** 1.7 Misc commands
+   - M-g
+   - M-: (find-file user-init-file)
+   - C-c C-n C-(i/t)
+   - cabal sandbox init
+   - cabal install --only-dependencies
+   - cabal build
+   - M-! shell-command
+   - % m mark by pattern
+   - wdired-chang-to-wdired-mode
+   - C-c C-c wdired-finish-edit
+   - C-c  Esc wdired-abort-changes
+
+
 
 
 
 
 * 2. Working on Linux(CentOS)
-** icarus verilog installation
+** 2.1 icarus verilog installation
 ***   1. Install gtkwave & its prerequisits(tk-devel, xz-devel, gperf, gtk2)
 #+begin_src shell
       > download http://gtkwave.sourceforge.net/gtkwave-3.3.65.tar.gz
@@ -105,7 +119,7 @@ ctags -e -R --extra=+fq --exclude=db --exclude=test --exclude=.git -f TAGS
 
 
 
-** Install git 1.8.5.2 from source on CentOS 6.5
+** 2.2 Install git 1.8.5.2 from source on CentOS 6.5
    1. [[https://gist.github.com/matthewriley/8319432][A link I reffered]]
 
    2. I just copied the instruction from the link for convinience.
@@ -127,6 +141,12 @@ $ which git
 $ git --version
 git version 1.8.5.2
 #+end_src
+** 2.3 mkdir -p automatically create any parent directories necessary
+
+** 2.4 xrandr, uname -r, dmesg | grep -i chipset
+   - systemctl set_default TARGET.target where TARGET is multi-usr or graphical
+
+
 
 * 3. HDL
 ** 3.1 Altera tools
@@ -148,52 +168,90 @@ git version 1.8.5.2
 /opt/tools/altera/13.1/quartus/bin/jtagd
 > sudo `which jtagd`
 #+end_src
+** 3.2 verilog gate level simulation libraries(altera)
+   - altera_mf_ver, altera_ver, 220model_ver, cycloneiii_ver
+
 
 * 4. Advanced Debug Interface with Altera Virtual JTAG
+** 4.1 Advanced Debug Interface
+
+JTAG --> ADI  |---> CPU module
+              |---> WB module
+*** 4.1.1 writing & reading data to & from wb module
+    a. put ADI in debug mode by shifting 0x4 into IR
+    b. select the sub module(wb module) by shifting 0x3 into DR
+    c. Burst setup
+    d. Burst write
+    e. Burst read
 
 #+begin_src
-  1. enable bebugger
+  1. Enable ADI
      virtual IR shift, IR length = *4* <=
      (0,1, 8,*4*)
         |  |  |-> 4 bit shift
         |  |----> 0x8, the value to be shifted in.
         |-------> 1: IR, 2: DR
+    device_virtual_ir_shift -instance_index 0 -ir_value 8 -no_captured_ir_value
+
   2. Select the submodule.
      virtual DR shift
      (0,2,4,3)
           |   | --> 3 bit shift
-          |-------> 0x4("100") top module & submodule 0
+          |-------> 0x4("100") top module & submodule # 0
 
   3. Burst Write
-     3.1. Burst Setup(*Write*)
+     3.1. Setup Burst Write (*Write*)
 	virtual DR shift
-	(0,2,"0 0x1 0x00 0x4", 53)
-              |   |   |   |    |--> 53bit shift
-              |   |   |   |-------> word count
-              |   |   |-----------> start address
-              |   |-----------------> burst setup write 8-bits words
-              |---------------------> top level module select 0: submodule, 1: top module
+1'b0
+4'h3
+32'h00000000
+16'h0001
+53'h03000000000001
+	(0,2,"*0* 0x3 0x00 0x01", 53)
+               |   |   |    |     |--> 53bit shift
+               |   |   |    |--------> word count                  (16bits)
+               |   |   |-------------> start address               (32bits)
+               |   |-----------------> CMD(burst setup write 32bit word) ( 4bits)
+               |---------------------> top level module select 0: submodule, 1: top module
 
      3.2. Burst Write
 	virtual DR shift
-	(0,2,"CRC 0x03..0x00",64)
-		|      |       |--> 64bit shift
-		|      |-------> data to be written
-		|-----------------> crc for the data
+# data_in: 12345678, crc_out: 7323e97c
+# data_in_crc_out_1bit_shifted: 0e647d2f82468acf1
+
+1'b0
+32'h7323e97c
+32'h12345678
+1'b1
+66'h0e647d2f82468acf1
+
+	(0,2,"0x0 CRC(32bit) 0x88* 0x1",66)
+               |    |          |    |   |--> 66 bit shift
+	       |    |          |    |------> start bit (1 bit)
+	       |    |          |-----------> data to be written (32 bits)
+	       |    |----------------------> crc for the data (32 bits)
+               |---------------------------> match bit(1bit)
   4. Burst Read
      4.1. Burst Setup(*Read*)
 	virtual DR shift
-	(0,2,"0 0x5 0x00 0x4", 53)
-	      |   |   |   |    |--> 53bit shift
-	      |   |   |   |-------> word count
-	      |   |   |-----------> start address
-	      |   |-----------------> burst setup read 8-bits words
-	      |---------------------> top level module select 0: submodule, 1: top module
+1'b0
+4'h7
+32'h00000000
+16'h0001
+53'h07 00000000 0001
+	(0,2,"*0* 0x7 0x00 0x1", 53)
+	       |   |   |   |      |--> 53bit shift
+	       |   |   |   |---------> word count           (16 bits)
+	       |   |   |-------------> start address        (32 bits)
+	       |   |-----------------> CMD(burst setup read 32bit word) (4 bits)
+	       |---------------------> top level module select 0: submodule, 1: top module
      4.2. Burst Read
 	virtual DR shift
-	(0,2,"0*(32+32+1), 65)
-		     |     |--> 64bit shift
-		     |--------> status(1)+crc(32)+data(32)
+65'h000000000000
+	(0,2,"(32+32*+1), 65)
+		   | |   |--> 65bit shift
+                   | |------> status bit(1: ready, 0: not ready)
+		   |--------> crc(32)+data(32)
 #+end_src
 
 
@@ -210,3 +268,66 @@ git version 1.8.5.2
 ;directly tell uffi to load mysqlclient shared library
 (uffi:load-foreign-library "/usr/lib64/mysql/libmysqlclient.so")
 #+end_src
+
+* 6. ctags
+
+find . -type f -iname "*.tcl" | xargs ctags -e
+
+* 7. Quartus
+** 7.1 Trouble shooting
+*** 7.1.1  Error (213019): Can't scan JTAG chain. Error code 89.
+    * solution 1
+    > sudo killall jtagd
+    > sudo `which jtagd`
+    * solution 2 : save below as "/etc/udev/rules.d/51-usbblaster.rules" & reboot
+#+begin_src shell
+        # USB-Blaster
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="09fb", ATTRS{idProduct}=="6001", MODE="0666"
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="09fb", ATTRS{idProduct}=="6002", MODE="0666"
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="09fb", ATTRS{idProduct}=="6003", MODE="0666"
+
+# USB-Blaster II
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="09fb", ATTRS{idProduct}=="6010", MODE="0666"
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="09fb", ATTRS{idProduct}=="6810", MODE="0666"
+#+end_src
+
+
+
+** 7.2 Quartus web edition installation
+   1. download and unrar the archieve
+   2. run setup.sh
+   3. add the following to you .bash_profile
+#+begin_src shell
+
+MODEL_TECH=$MODELSIM/bin
+
+ALTERA=/opt/tools/altera/13.1
+QUARTUS=$ALTERA/quartus
+MODELSIM=$ALTERA/modelsim_ase
+ACL=/opt/tools/acl90express
+
+PATH=$HOME/.local/bin:$PATH
+PATH=$HOME/bin:$ACL:$PATH
+PATH=$QUARTUS/bin:$PATH
+PATH=$MODELSIM/bin:$PATH
+export PATH
+
+QUARTUS_64BIT=1
+export QUARTUS_64BIT
+
+#+end_src
+   4. . ~/.bash_profile
+
+
+* 8. Hakell
+  > M-x haskell-interactive-bring
+  > M-x haskell-indentation-mode
+* 9. modelsim_ase
+  1. error message
+    Error: cannot find /opt/tools/altera/13.1/modelsim_ase/bin/../linux_rh60/vlog
+  2. the link i referred
+    http://askubuntu.com/questions/68146/modelsim-is-not-working-after-ubuntu-11-10-upgrade
+  3. edite <modelsim_ase install dir>/bin/vsim, the line 205
+    *)    vco="linux_rh60" ;; -> *)    vco="linux" ;;
+  4. also, you have to change the line 13 (first non-comment line)
+     mode=${MTI_VCO_MODE:-""}    ->    mode=${MTI_VCO_MODE:-"32"}
