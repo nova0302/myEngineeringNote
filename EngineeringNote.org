@@ -277,8 +277,10 @@ find . -type f -iname "*.tcl" | xargs ctags -e
 ** 7.1 Trouble shooting
 *** 7.1.1  Error (213019): Can't scan JTAG chain. Error code 89.
     * solution 1
+#+begin_src shell
     > sudo killall jtagd
     > sudo `which jtagd`
+#+end_src
     * solution 2 : save below as "/etc/udev/rules.d/51-usbblaster.rules" & reboot
 #+begin_src shell
         # USB-Blaster
