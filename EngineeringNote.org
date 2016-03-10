@@ -336,7 +336,7 @@ export QUARTUS_64BIT
 
 * 10. Practical UML statecharts in C, C++ second edition
 **  1.4 The Design of the "Fly 'n' Shoot" Game
-    a. your goal -> achieve loose coupling among the active object ocmponents (ideally no sharing of any resources),
-    b. minimize the commucation in terms of the frequency and size of exchanged events
-    c. _pick_ the *frequently used nouns* in the problem specification(ship, missile, mines, tunnel)
-    d. _assign_ *responsibilities and resources* to the identified active objects.
+***     your goal -> achieve loose coupling among the active object ocmponents (ideally no sharing of any resources),
+***     minimize the commucation in terms of the frequency and size of exchanged events
+*** _pick_ the *frequently used nouns* in the problem specification(ship, missile, mines, tunnel)
+*** _assign_ *responsibilities and resources* to the identified active objects.
