@@ -333,3 +333,10 @@ export QUARTUS_64BIT
     *)    vco="linux_rh60" ;; -> *)    vco="linux" ;;
   4. also, you have to change the line 13 (first non-comment line)
      mode=${MTI_VCO_MODE:-""}    ->    mode=${MTI_VCO_MODE:-"32"}
+
+* 10. Practical UML statecharts in C, C++ second edition
+**  1.4 The Design of the "Fly 'n' Shoot" Game
+    a. your goal -> achieve loose coupling among the active object ocmponents (ideally no sharing of any resources),
+    b. minimize the commucation in terms of the frequency and size of exchanged events
+    c. _pick_ the *frequently used nouns* in the problem specification(ship, missile, mines, tunnel)
+    d. _assign_ *responsibilities and resources* to the identified active objects.
