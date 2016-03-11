@@ -335,8 +335,41 @@ export QUARTUS_64BIT
      mode=${MTI_VCO_MODE:-""}    ->    mode=${MTI_VCO_MODE:-"32"}
 
 * 10. Practical UML statecharts in C, C++ second edition
+
+** _Simplest object oriented technique_
+   - pick the frequently used nouns in the problem specfication
+
+*** 1. An active object
+    - a seperate task context
+    - an event queue
+    - a unique priority level
+
+*** 2. merging them is a valid option when performance or space is nedded
+
+*** 3. orthogoanl component design pattern
+
+*** 4 The next step in the event-driven application design
+    - assigning responsibilities and resources to the identified active objects.
+
+*** 5 The general design strategy for avoiding sharing of resources
+
+**** a. encapusulate each resource inside a dedicated active object
+
+**** b. let that object manage the resource for the rest of the application
+
+**** c. the rest of application shares the dedicated active object via _events_
+
+**** d. For example, put the tunel active object in charge of the display _other objects_
+     and _statemachine components_, such as ship, missle, and mines, don't draw on
+     the display directly, but rather render the ship missile or mine bitmaps at the provided (x,y)
+     coordinats of the display.
+
 **  1.4 The Design of the "Fly 'n' Shoot" Game
-*** 1.     your goal -> achieve loose coupling among the active object ocmponents (ideally no sharing of any resources),
-*** 2.    minimize the commucation in terms of the frequency and size of exchanged events
+*** 1.  your goal -> achieve loose coupling among the active object ocmponents (ideally no sharing of any resources),
+*** 2.  minimize the commucation in terms of the frequency and size of exchanged events
 *** 3. _pick_ the *frequently used nouns* in the problem specification(ship, missile, mines, tunnel)
 *** 4. _assign_ *responsibilities and resources* to the identified active objects.
+
+** 1.5 Active Objects in the "Fly 'n' Shoot" Game
+   - Actions depends on the events and the internal mode of the object.
+   - State machine makes the behavior explicitly dependent on both the event and the state of an object.
