@@ -373,3 +373,45 @@ export QUARTUS_64BIT
 ** 1.5 Active Objects in the "Fly 'n' Shoot" Game
    - Actions depends on the events and the internal mode of the object.
    - State machine makes the behavior explicitly dependent on both the event and the state of an object.
+*** UMS state diagram contains
+**** a. entry actions
+**** b. exit actions
+**** c. another internal transitions
+     - state transitions are represented as arrows originating at the boundary of the source state
+     - and pointing to the boundary of the target state.
+     - At a minimum, a transition must be labeled with the triggering event.
+     - Optionally, the trigger can be followed by event parameters, a guard, and a list of actions
+
+* 11. Difference btn #define and typedef
+** 1. termination with semicolon
+#+begin_src C
+typedef char* PRT_t;
+#define PRT_d char*
+#+end_src
+
+** 2. #define will just copy-paste the definition at the point, while typedef is actual difinition of a new type
+#+begin_src C
+typedef char* PRT_t;
+#define PTR_d char*
+PRT_t p1, p2; // Both p1 and p2 are char*
+PRT_d ptr1, ptr2; // only ptr1 is char* while ptr2 is char only
+#+end_src
+
+** 3. typedef follows the scope rule, but #defin, preprocessor will replace all the occurrences
+   #+begin_src C
+#include <stdio.h>
+void print(){
+  #define ONE 1
+  typedef int integer;
+  printf("%d", ONE);
+}
+int main(){
+  printf("%d", ONE); // OK
+  integer a; // compiler error
+  return 0;
+}
+   #+end_src
+** 3. There are certain types of definitions which you can only define using typedef only and not #define
+   #+begin_src C
+type unsigned int U_INT32;
+   #+end_src
